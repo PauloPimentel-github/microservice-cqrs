@@ -25,8 +25,8 @@ public class CommandApplication {
 	@PostConstruct
 	public void registerHandlers(){
 		this.commandDispatcher.registerHandler(OpenAccountCommand.class, this.commandHandler::handle);
-		this.commandDispatcher.registerHandler(DepositFundsCommand.class,  this.commandHandler::handle);
-		this.commandDispatcher.registerHandler(WithdrawFundsCommand.class,  this.commandHandler::handle);
-		this.commandDispatcher.registerHandler(CloseAccountCommand.class,  this.commandHandler::handle);
+		this.commandDispatcher.registerHandler(DepositFundsCommand.class, this.commandHandler::handle);
+		this.commandDispatcher.registerHandler(WithdrawFundsCommand.class, this.commandHandler::handle);
+		this.commandDispatcher.registerHandler(CloseAccountCommand.class, this.commandHandler::handle);
 	}
 }
