@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +26,13 @@ public class AccountEventStore implements EventStore {
 
     @Override
     public void saveEvents(String aggregateId, Iterable<BaseEvent> events, int expectedVersion) {
-        var eventStream = eventStoreRepository.findByAggregateIdentifier(aggregateId);
+        var eventStream = this.eventStoreRepository.findByAggregateIdentifier(aggregateId);
         if (expectedVersion != -1 && eventStream.get(eventStream.size() - 1).getVersion() != expectedVersion) {
             throw new ConcurrencyException();
         }
 
         var version = expectedVersion;
-        for(var event: events) {
+        for (var event : events) {
             version++;
             event.setVersion(version);
             var eventModel = EventModel.builder()
@@ -44,17 +43,16 @@ public class AccountEventStore implements EventStore {
                     .eventType(event.getClass().getTypeName())
                     .eventData(event)
                     .build();
-            var persistedEvent = eventStoreRepository.save(eventModel);
-            if(!persistedEvent.getId().isEmpty()){
-                eventProducer.produce(event.getClass().getSimpleName(), event);
+            var persistedEvent = this.eventStoreRepository.save(eventModel);
+            if (!persistedEvent.getId().isEmpty()) {
+                this.eventProducer.produce(event.getClass().getSimpleName(), event);
             }
         }
-
     }
 
     @Override
     public List<BaseEvent> getEvent(String aggregateId) {
-        var eventStream = eventStoreRepository.findByAggregateIdentifier(aggregateId);
+        var eventStream = this.eventStoreRepository.findByAggregateIdentifier(aggregateId);
         if(eventStream == null || eventStream.isEmpty()){
             throw  new AggregateNotFoundException("The bank account is incorrect.");
         }
