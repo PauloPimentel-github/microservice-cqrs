@@ -9,8 +9,8 @@ spring:
       ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost/db?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: phpimentel
-    password: PhPimentel2005!
+    username: "phpimentel"
+    password: "PhPimentel2005!"
   kafka:
     listener:
       ack-mode: manual_immediate

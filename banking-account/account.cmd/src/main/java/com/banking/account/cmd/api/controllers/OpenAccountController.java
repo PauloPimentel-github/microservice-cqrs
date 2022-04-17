@@ -31,7 +31,7 @@ public class OpenAccountController {
 
         try {
             this.commonDispatcher.send(command);
-            return new ResponseEntity<>(new OpenAccountResponse("La cuenta del banco se ha creado exitosamente", id), HttpStatus.CREATED);
+            return new ResponseEntity<>(new OpenAccountResponse("The bank account has been successfully created", id), HttpStatus.CREATED);
         } catch (IllegalStateException illegalStateException) {
             log.error(MessageFormat.format("The bank account has been successfully created - {0}", illegalStateException.toString()));
             return new ResponseEntity<>(new BaseResponse(illegalStateException.toString()), HttpStatus.BAD_REQUEST);
